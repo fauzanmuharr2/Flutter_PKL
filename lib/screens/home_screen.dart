@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutterpkl/constants.dart';
+import 'package:flutterpkl/screens/details_screen.dart';
 import 'package:flutterpkl/widgets/info_chart.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -30,21 +31,32 @@ class HomeScreen extends StatelessWidget {
                   title: "Confirmed Cases",
                   iconColor: Color(0xFFFFBC00),
                   effectedNum: 1062,
+                  press: () {},
                 ),
                 InfoCard(
                   title: "Total Deaths",
                   iconColor: Color(0xFFFF2D55),
                   effectedNum: 75,
+                  press: () {},
                 ),
                 InfoCard(
                   title: "Total Recovered",
                   iconColor: Color(0xFF50E3C2),
-                  effectedNum: 75,
+                  effectedNum: 689,
+                  press: () {},
                 ),
                 InfoCard(
                   title: "New Cases",
                   iconColor: Color(0xFF5856D6),
-                  effectedNum: 75,
+                  effectedNum: 52,
+                  press: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return DetailsScreen();
+                      }),
+                    );
+                  },
                 ),
               ],
             ),
@@ -52,92 +64,102 @@ class HomeScreen extends StatelessWidget {
           SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Preventions",
-                  style: Theme.of(context)
-                      .textTheme
-                      .title
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    PreventionsCard(
-                      svgSrc: "assets/icons/hand_wash.svg",
-                      title: "Wash Hands",
-                    ),
-                    PreventionsCard(
-                      svgSrc: "assets/icons/use_mask.svg",
-                      title: "Use Masks",
-                    ),
-                    PreventionsCard(
-                      svgSrc: "assets/icons/Clean_Disinfect.svg",
-                      title: "Clean Disinfect",
-                    ),
-                  ],
-                ),
-                SizedBox(height: 40),
-                Container(
-                  height: 150,
-                  width: double.infinity,
-                  child: Stack(
-                    alignment: Alignment.bottomLeft,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * .4,
-                          top: 20,
-                          right: 20,
-                        ),
-                        height: 130,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xFF60BE93),
-                              Color(0xFF1BBD59),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "Dial 99 for \n Medical Help\n",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .title
-                                    .copyWith(color: Colors.white),
-                              ),
-                              TextSpan(
-                                text: "If Any symptons appear",
-                                style: TextStyle(
-                                  color: Colors.white.withOpacity(0.7),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: SvgPicture.asset("assets/icons/nurse.svg"),
-                      ),
-                      Positioned(
-                        top: 30,
-                        right: 10,
-                        child: SvgPicture.asset("assets/icons/virus.svg"),
-                      ),
-                    ],
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Preventions",
+                    style: Theme.of(context)
+                        .textTheme
+                        .title
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
-                )
-              ],
+                  SizedBox(height: 20),
+                  buildPreventation(),
+                  SizedBox(height: 40),
+                  buildHelpCard(context)
+                ],
+              ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Row buildPreventation() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        PreventionsCard(
+          svgSrc: "assets/icons/hand_wash.svg",
+          title: "Wash Hands",
+        ),
+        PreventionsCard(
+          svgSrc: "assets/icons/use_mask.svg",
+          title: "Use Masks",
+        ),
+        PreventionsCard(
+          svgSrc: "assets/icons/Clean_Disinfect.svg",
+          title: "Clean Disinfect",
+        ),
+      ],
+    );
+  }
+
+  Container buildHelpCard(BuildContext context) {
+    return Container(
+      height: 150,
+      width: double.infinity,
+      child: Stack(
+        alignment: Alignment.bottomLeft,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * .4,
+              top: 20,
+              right: 20,
+            ),
+            height: 130,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF60BE93),
+                  Color(0xFF1BBD59),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "Dial 999 for \n Medical Help\n",
+                    style: Theme.of(context)
+                        .textTheme
+                        .title
+                        .copyWith(color: Colors.white),
+                  ),
+                  TextSpan(
+                    text: "If Any symptons appear",
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.7),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: SvgPicture.asset("assets/icons/nurse.svg"),
+          ),
+          Positioned(
+            top: 30,
+            right: 10,
+            child: SvgPicture.asset("assets/icons/virus.svg"),
           ),
         ],
       ),
